@@ -126,6 +126,18 @@ namespace Mvc.Extensions
             return new MvcHtmlString(builder.ToString());
         }
 
+        public static MvcHtmlString BuildTextArea<T>(this HtmlHelper<T> htmlHelper, string displayName, string id, string helpText, string classesString, int cols, int rows, Expression<Func<T, object>> action)
+        {            
+            var field = action.Compile().Invoke(htmlHelper.ViewData.Model);
+            var value = field != null ? field.ToString() : "";
+            var builder = new StringBuilder();
+            AppendFormStartOfInputWrappers(htmlHelper, builder, id, displayName);
+            builder.Append(string.Format("\n\t\t<textarea cols=\"{0}\" rows=\"{1}\"class=\"xlarge {2}\" name=\"{3}\" id=\"{3}\">{4}</textarea>", cols, rows, classesString, id, value));
+            builder.Append(string.Format("\n\t\t<span class=\"help-inline\">{0}</span>", htmlHelper.GetErrorOrDisplayHelp(id, helpText)));
+            AppendFormEndOfInputWrappers(builder);
+            return new MvcHtmlString(builder.ToString());
+        }
+
         public static MvcHtmlString Submit(this HtmlHelper htmlHelper, string name)
         {
             return new MvcHtmlString(string.Format("<input type=\"submit\" value=\"{0}\" class=\"btn btn-primary btn-large\"/>", name));

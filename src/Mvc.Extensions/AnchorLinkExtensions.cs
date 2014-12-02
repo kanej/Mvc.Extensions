@@ -30,10 +30,8 @@ namespace Mvc.Extensions
         public static MvcHtmlString Link(this HtmlHelper htmlHelper, Link link)
         {
             if (link == null) return new MvcHtmlString("");
-            if(link.IsDisabled) return new MvcHtmlString(string.Format("<span>{0}</span>", link.Title));
+            if (link.IsDisabled) return new MvcHtmlString(string.Format("<span>{0}</span>", link.Title));
             return new MvcHtmlString(string.Format("<a href=\"{0}\">{1}</a>", link.Href, link.Title));
         }
-
-
     }
 }
